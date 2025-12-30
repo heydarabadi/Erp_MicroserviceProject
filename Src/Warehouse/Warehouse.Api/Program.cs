@@ -1,3 +1,4 @@
+using Shared.Ui;
 using Warehouse.Api;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddSharedExceptionHandler();
+
 var app = builder.Build();
+
+app.UseSharedExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -72,8 +72,19 @@ EPart.sln
 │           └── API             # Controllers, Middlewares, Dependency Injection Setup
 ├── compose.yaml                # Infrastructure orchestration (SQL Server, RabbitMQ)
 └── README.md
-🔄 Technical Implementation DetailsMediatR: Used for decoupled communication between the API and Application layers, handling the dispatching of Commands and Queries.FluentValidation: Ensures all incoming data is validated before reaching the business logic handlers.AutoMapper: Simplifies the mapping between Domain Entities and Data Transfer Objects (DTOs) for the API layer.Entity Framework Core: Powering the Persistence layer with SQL Server, using Fluent API for data modeling and migrations.🚀 Getting StartedPrerequisites.NET 7 or laterDocker & Docker ComposeSQL ServerRun with Docker ComposeTo spin up the necessary infrastructure:Bashdocker compose up --build
-API Endpoints (Swagger Enabled)MethodEndpointDescriptionPOST/api/inventory/receiveAdd new stock to a warehousePOST/api/inventory/reserveReserve items for a specific orderPOST/api/inventory/shipFinalize shipment and deduct stockGET/api/inventory/{sku}Check current stock levels for a part🛠 Technology StackC# / .NETMediatR (Mediator Pattern)FluentValidation (Validation)Entity Framework Core (Persistence)AutoMapper (Object Mapping)Docker & Compose (Containerization)🧪 Future RoadmapOrder Service: Integration via Saga Pattern (Choreography/Orchestration).Multi-Warehouse: Support for stock transfers and intelligent routing between locations.Observability: Adding OpenTelemetry for distributed tracing across microservices.📄 LicenseThis project is intended for architectural, educational, and experimental purposes.
+🔄 Technical Implementation DetailsMediatR: Used for decoupled communication between the API and Application layers, handling the dispatching of Commands and Queries.FluentValidation: Ensures all incoming data is validated before reaching the business logic handlers.AutoMapper: Simplifies the mapping between Domain Entities and Data Transfer Objects (DTOs) for the API layer.Entity Framework Core: Powering the Persistence layer with SQL Server, using Fluent API for data modeling and migrations.
+
+
+🚀 Getting StartedPrerequisites.NET 7 or laterDocker & Docker ComposeSQL ServerRun with Docker ComposeTo spin up the necessary infrastructure:Bashdocker compose up --build
+API Endpoints (Swagger Enabled)MethodEndpointDescriptionPOST/api/inventory/receiveAdd new stock to a warehousePOST/api/inventory/reserveReserve items for a specific orderPOST/api/inventory/shipFinalize shipment and deduct stockGET/api/inventory/{sku}Check current stock levels for a part🛠 Technology StackC# / .NETMediatR (Mediator Pattern)FluentValidation (Validation)Entity Framework Core (Persistence)AutoMapper (Object Mapping)Docker & Compose (Containerization)
+
+🧪 Future RoadmapOrder Service: Integration via Saga Pattern (Choreography/Orchestration).Multi-Warehouse: Support for stock transfers and intelligent routing between locations.Observability: Adding OpenTelemetry for distributed tracing across microservices.
+
+📄 LicenseThis project is intended for architectural, educational, and experimental purposes.
 ***
 
 **Would you like me to help you create a GitHub Actions workflow file (`.github/workflows/main.
+
+
+
+

@@ -45,7 +45,7 @@ The Warehouse context is responsible for the physical reality of the inventory.
 The primary aggregate that enforces inventory business rules:
 * **On-Hand:** Total physical items currently in the building.
 * **Reserved:** Items allocated to an order but not yet shipped.
-* **Available:** $OnHand - Reserved$.
+* **Available:** $Available = OnHand - Reserved$.
 
 
 
@@ -59,32 +59,53 @@ Entities and Value Objects representing physical locations, zones, and bins with
 
 ## 🗂 Repository Structure & Clean Architecture
 
-The project follows a strict Clean Architecture pattern as implemented in the source:
+The project follows a strict Clean Architecture pattern:
 
-text
+```text
 EPart.sln
 ├── src
-│   └── Warehouse
-│       └── Warehouse.Api
-│           ├── Domain          # Aggregate Roots, Entities, Value Objects, Domain Exceptions
-│           ├── Application     # CQRS (Commands/Queries), MediatR Handlers, AutoMapper, Validators
-│           ├── Infrastructure  # DBContext (EF Core), Repository Implementations, Persistence Config
-│           └── API             # Controllers, Middlewares, Dependency Injection Setup
-├── compose.yaml                # Infrastructure orchestration (SQL Server, RabbitMQ)
+│   └── Warehouse
+│       └── Warehouse.Api
+│           ├── Domain          # Aggregate Roots, Entities, Value Objects, Domain Exceptions
+│           ├── Application     # CQRS (Commands/Queries), MediatR Handlers, AutoMapper, Validators
+│           ├── Infrastructure  # DBContext (EF Core), Repository Implementations, Persistence Config
+│           └── API             # Controllers, Middlewares, Dependency Injection Setup
+├── compose.yaml                # Infrastructure orchestration (SQL Server, RabbitMQ)
 └── README.md
-🔄 Technical Implementation DetailsMediatR: Used for decoupled communication between the API and Application layers, handling the dispatching of Commands and Queries.FluentValidation: Ensures all incoming data is validated before reaching the business logic handlers.AutoMapper: Simplifies the mapping between Domain Entities and Data Transfer Objects (DTOs) for the API layer.Entity Framework Core: Powering the Persistence layer with SQL Server, using Fluent API for data modeling and migrations.
+‍‍‍```
 
+## 🔄 Technical Implementation Details
 
-🚀 Getting StartedPrerequisites.NET 7 or laterDocker & Docker ComposeSQL ServerRun with Docker ComposeTo spin up the necessary infrastructure:Bashdocker compose up --build
-API Endpoints (Swagger Enabled)MethodEndpointDescriptionPOST/api/inventory/receiveAdd new stock to a warehousePOST/api/inventory/reserveReserve items for a specific orderPOST/api/inventory/shipFinalize shipment and deduct stockGET/api/inventory/{sku}Check current stock levels for a part🛠 Technology StackC# / .NETMediatR (Mediator Pattern)FluentValidation (Validation)Entity Framework Core (Persistence)AutoMapper (Object Mapping)Docker & Compose (Containerization)
+* **MediatR:** Used for decoupled communication between the API and Application layers, handling the dispatching of Commands and Queries (CQRS).
+* **FluentValidation:** Ensures all incoming data is validated before reaching the business logic handlers, providing a clean way to manage validation rules.
+* **AutoMapper:** Simplifies the mapping between Domain Entities and Data Transfer Objects (DTOs), reducing boilerplate code in the API layer.
+* **Entity Framework Core:** Powering the Persistence layer with SQL Server, utilizing Fluent API for data modeling and managing migrations.
 
-🧪 Future RoadmapOrder Service: Integration via Saga Pattern (Choreography/Orchestration).Multi-Warehouse: Support for stock transfers and intelligent routing between locations.Observability: Adding OpenTelemetry for distributed tracing across microservices.
+---
 
-📄 LicenseThis project is intended for architectural, educational, and experimental purposes.
-***
+## 🛠 Technology Stack
 
-**Would you like me to help you create a GitHub Actions workflow file (`.github/workflows/main.
+| Component | Technology |
+| :--- | :--- |
+| **Language / Framework** | C# / .NET 7+ |
+| **Pattern Handling** | MediatR (Mediator Pattern) |
+| **Validation** | FluentValidation |
+| **Persistence** | Entity Framework Core |
+| **Object Mapping** | AutoMapper |
+| **Containerization** | Docker & Docker Compose |
 
+---
 
+## 🚀 Getting Started
 
+### Prerequisites
+Before running the project, ensure you have the following installed:
+* .NET 7 SDK or later
+* Docker & Docker Compose
+* SQL Server (if running locally without Docker)
 
+### Run with Docker Compose
+To spin up the necessary infrastructure (Database, Brokers, etc.), execute the following command in your terminal:
+
+```bash
+docker compose up --build

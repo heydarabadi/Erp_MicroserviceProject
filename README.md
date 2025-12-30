@@ -61,7 +61,7 @@ Entities and Value Objects representing physical locations, zones, and bins with
 
 The project follows a strict Clean Architecture pattern as implemented in the source:
 
-```text
+text
 EPart.sln
 ├── src
 │   └── Warehouse

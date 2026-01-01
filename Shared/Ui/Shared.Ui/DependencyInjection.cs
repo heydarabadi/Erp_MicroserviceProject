@@ -12,6 +12,8 @@ public static class DependencyInjection
     public static IServiceCollection AddUiSharedBuildServices(this IServiceCollection services,
         params Assembly[] assemblies)
     {
+        services.AddOpenApi();
+        
         // Exception Middleware Handleing
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails(); // برای سازگاری با استانداردهای مدرن
@@ -43,6 +45,8 @@ public static class DependencyInjection
     
     public static WebApplication UseUiSharedBuildServices(this WebApplication app,string projectName)
     {
+        app.MapOpenApi();
+        
         app.UseMiddleware<ResponseWrapperMiddleware>();
         
         // فعال‌سازی سیستم مدیریت خطای سراسری

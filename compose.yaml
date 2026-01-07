@@ -5,3 +5,9 @@
       context: .
       dockerfile: Src/Warehouse/Warehouse.Api/Dockerfile
 
+
+  catalog.api:
+    image: catalog.api
+    build:
+      context: .
+      dockerfile: Src/Catalog/Catalog.Api/Dockerfile

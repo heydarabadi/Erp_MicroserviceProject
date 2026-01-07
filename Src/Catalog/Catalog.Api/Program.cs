@@ -1,11 +1,9 @@
+using System.Reflection;
+using Shared.Ui;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
+builder.Services.AddUiSharedBuildServices(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,5 +17,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+string projectName = "Catalog.Api";
+app.UseUiSharedBuildServices(projectName);
 
 app.Run();

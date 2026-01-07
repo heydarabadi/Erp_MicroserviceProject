@@ -14,7 +14,7 @@ public static class DependencyInjection
     {
         services.AddOpenApi();
         
-        // Exception Middleware Handleing
+        // Exception Middleware Handling
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails(); // برای سازگاری با استانداردهای مدرن
         
@@ -25,7 +25,7 @@ public static class DependencyInjection
             services.AddValidatorsFromAssembly(assembly);
         }
         
-        // Endpoint Discoverty
+        // Endpoint Discovery
         var endpointDefinitions = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(t => typeof(IEndpointDefinition).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);

@@ -1,5 +1,6 @@
 ﻿using DispatchR;
 using DispatchR.Abstractions.Send;
+using IMediator = Shared.Application.CqrsConfig.Contracts.IMediator;
 
 namespace Shared.Application.CqrsConfig;
 

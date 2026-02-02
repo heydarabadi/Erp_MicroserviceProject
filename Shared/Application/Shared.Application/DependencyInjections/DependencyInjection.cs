@@ -2,6 +2,7 @@
 using DispatchR.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Application.CqrsConfig;
+using Shared.Application.CqrsConfig.Contracts;
 
 namespace Shared.Application.DependencyInjections;
 

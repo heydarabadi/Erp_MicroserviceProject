@@ -1,6 +1,6 @@
 ﻿using Shared.Domain;
 
-namespace Shared.Application;
+namespace Shared.Application.Repositories;
 
 public interface IRepository<TId, TEntity> where TEntity : Entity<TId>
 {

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Shared.Application.CqrsConfig;
+using Shared.Application.CqrsConfig.Contracts;
 using Warehouse.Api.Application.WarehouseAggregate.Commands.Dto;
 
 namespace Warehouse.Api.Application.WarehouseAggregate.Commands.Create;

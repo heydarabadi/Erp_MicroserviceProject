@@ -1,13 +1,13 @@
 ﻿using System.Linq.Expressions;
 
-namespace Shared.Application;
+namespace Shared.Application.Specifications;
 
-internal class OrSpecification<T> : Specification<T>
+internal class AndSpecification<T> : Specification<T>
 {
     private readonly Specification<T> _left;
     private readonly Specification<T> _right;
 
-    public OrSpecification(Specification<T> left, Specification<T> right)
+    public AndSpecification(Specification<T> left, Specification<T> right)
     {
         _left = left;
         _right = right;
@@ -26,6 +26,6 @@ internal class OrSpecification<T> : Specification<T>
         var rightVisitor = new ParameterReplacer(parameter);
         var right = rightVisitor.Visit(rightExpression.Body);
 
-        return Expression.Lambda<Func<T, bool>>(Expression.OrElse(left, right), parameter);
+        return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
     }
 }

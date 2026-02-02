@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Shared.Application;
+namespace Shared.Application.Specifications;
 
 public sealed class FalseSpecification<T> : Specification<T>
 {

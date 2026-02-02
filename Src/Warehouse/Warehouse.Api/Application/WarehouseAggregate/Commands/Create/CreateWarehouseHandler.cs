@@ -1,4 +1,5 @@
 ﻿using Shared.Application.CqrsConfig;
+using Shared.Application.CqrsConfig.Contracts;
 
 namespace Warehouse.Api.Application.WarehouseAggregate.Commands.Create;
 

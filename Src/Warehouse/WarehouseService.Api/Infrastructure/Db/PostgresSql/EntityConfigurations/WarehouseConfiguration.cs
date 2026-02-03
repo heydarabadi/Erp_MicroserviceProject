@@ -11,16 +11,19 @@ public sealed class WarehouseConfiguration:IEntityTypeConfiguration<Warehouse>
     {
         builder.HasKey(x => x.Id);
         
-        builder.HasIndex(x => x.Id).IsUnique();
-        
         builder.HasMany(x=>x.StorageLocations)
             .WithOne(x=>x.Warehouse)
-            .HasForeignKey(x => x.WarehouseId);
+            .HasForeignKey(x => x.WarehouseId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.ComplexProperty(x => x.Location);
+        builder.ComplexProperty(x => x.Location, loc =>
+        {
+            loc.ToJson();
+        });
         builder.ComplexProperty(x => x.Name);
         
         builder.Property(x => x.IsActive).HasDefaultValue(true);
-
+        builder.HasQueryFilter(x=>x.IsDeleted==false);
+        
     }
 }

@@ -4,13 +4,14 @@ using WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.ValueObjects.Objects;
 
-[ComplexType]                      // Optional but makes intention clear
 public class StorageAddress : ValueObject
 {
-    public string Zone { get; }
-    public string Shelf { get; }
-    public string Bin { get; }
+    public string Zone { get; init; }
+    public string Shelf { get; init; }
+    public string Bin { get; init; }
 
+    private StorageAddress() {}
+    
     public StorageAddress(string zone, string shelf, string bin)
     {
         if (string.IsNullOrWhiteSpace(zone)) throw new StorageLocationInvalidException("Zone cannot be empty.");
@@ -22,7 +23,6 @@ public class StorageAddress : ValueObject
         Bin = bin;
     }
     
-    private StorageAddress(){}
 
     public override string ToString() => $"{Zone}-{Shelf}-{Bin}";
 

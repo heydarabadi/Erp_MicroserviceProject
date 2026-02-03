@@ -28,8 +28,8 @@ public sealed class WarehouseDbContext:DbContext
 
     #region Db Sets
     public DbSet<Warehouse> Warehouses { get; set; }
-    // public DbSet<InventoryItem> InventoryItems { get; set; }
-    // public DbSet<StorageLocation> StorageLocations { get; set; }
+    public DbSet<InventoryItem> InventoryItems { get; set; }
+    public DbSet<StorageLocation> StorageLocations { get; set; }
     #endregion
     
     

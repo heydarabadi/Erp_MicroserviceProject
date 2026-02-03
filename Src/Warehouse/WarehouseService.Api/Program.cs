@@ -3,29 +3,30 @@ using Microsoft.Extensions.Options;
 using Shared.Application.DependencyInjections;
 using Shared.Infrastructure.OptionPatternConfiguration;
 using Shared.Ui;
+using WarehouseService.Api.Infrastructure;
 using WarehouseService.Api.Infrastructure.ApplicationOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddUiSharedBuildServices(Assembly.GetExecutingAssembly());
 
+#region Option Pattern
 builder.Services.AddOptionsFromConfig<WarehouseOption>(builder.Configuration);
+var serviceProvider = builder.Services.BuildServiceProvider();
+var warehouseOption = serviceProvider.GetRequiredService<IOptions<WarehouseOption>>().Value;
+#endregion
 
+#region DatabaseConfig
+builder.Services.AddDatabase(builder, warehouseOption);
+#endregion
 
-
+#region CQRS
 builder.Services.AddCqrs(Assembly.GetExecutingAssembly());
+#endregion
 
 var app = builder.Build();
 
-var scope = app.Services.CreateScope();
-var options = scope.ServiceProvider.GetRequiredService<IOptions<WarehouseOption>>();
-
-
-
-
 string projectName = "WarehouseService.Api";
-
 
 app.UseHttpsRedirection();
 

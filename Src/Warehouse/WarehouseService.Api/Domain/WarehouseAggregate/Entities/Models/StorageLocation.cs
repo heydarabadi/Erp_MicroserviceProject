@@ -1,4 +1,5 @@
-﻿using Shared.Domain;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Shared.Domain;
 using WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 using WarehouseService.Api.Domain.WarehouseAggregate.ValueObjects.Objects;
 

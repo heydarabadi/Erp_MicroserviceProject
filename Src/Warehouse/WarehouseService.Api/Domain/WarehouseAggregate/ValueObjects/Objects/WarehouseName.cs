@@ -4,6 +4,7 @@ using WarehouseService.Api.Domain.WarehouseAggregate.ValueObjects.Exceptions;
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.ValueObjects.Objects;
 
+
 public class WarehouseName : ValueObject
 {
     public string Value { get; }

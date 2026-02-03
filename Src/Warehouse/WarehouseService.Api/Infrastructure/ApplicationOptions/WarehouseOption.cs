@@ -1,6 +1,6 @@
 ﻿namespace WarehouseService.Api.Infrastructure.ApplicationOptions;
 
-internal sealed class WarehouseOption
+public sealed class WarehouseOption
 {
     public Logging Logging { get; set; }
     public Database Database { get; set; }
@@ -23,6 +23,10 @@ public sealed class LogLevel
 public sealed class Database
 {
     public string ConnectionStrings { get; set; }
+    public int MaxRetryCount { get; set; }
+    public  int MaxRetryDelay { get; set; }
+    public  int TimeOut { get; set; }
+    
 }
 
 

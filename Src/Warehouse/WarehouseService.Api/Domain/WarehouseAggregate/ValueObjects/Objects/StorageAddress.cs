@@ -1,8 +1,10 @@
-﻿using Shared.Domain;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Shared.Domain;
 using WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.ValueObjects.Objects;
 
+[ComplexType]                      // Optional but makes intention clear
 public class StorageAddress : ValueObject
 {
     public string Zone { get; }
@@ -19,6 +21,8 @@ public class StorageAddress : ValueObject
         Shelf = shelf;
         Bin = bin;
     }
+    
+    private StorageAddress(){}
 
     public override string ToString() => $"{Zone}-{Shelf}-{Bin}";
 

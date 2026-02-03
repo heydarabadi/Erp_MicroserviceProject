@@ -1,13 +1,54 @@
 ﻿services:
-  warehouse.api:
-    image: warehouse.api
+            
+  warehouseservice.api:
+    image: warehouseservice.api
     build:
       context: .
-      dockerfile: Src/Warehouse/Warehouse.Api/Dockerfile
+      dockerfile: Src/Warehouse/WarehouseService.Api/Dockerfile
 
 
-  catalog.api:
-    image: catalog.api
-    build:
-      context: .
-      dockerfile: Src/Catalog/Catalog.Api/Dockerfile
+
+  postgres_WarehouseService:
+    image: postgres:16.2
+    container_name: postgres_WarehouseService_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB : RideMarketDb
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - WarehouseService-Network
+    volumes:
+      - postgres-WarehouseService:/data/postgres
+    restart: unless-stopped
+
+  pgadmin_WarehouseService:
+    image: dpage/pgadmin4
+    container_name: pgadmin_WarehouseService_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pouya@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    volumes:
+      - pgadmin-WarehouseService:/var/lib/pgadmin
+    ports:
+      - "8090:80"
+    networks:
+      - WarehouseService-Network
+    restart: unless-stopped
+    depends_on:
+      - postgres_WarehouseService
+
+
+
+
+volumes:
+  postgres-WarehouseService:
+  pgadmin-WarehouseService:
+
+
+
+networks:
+  WarehouseService-Network:
+    driver: bridge

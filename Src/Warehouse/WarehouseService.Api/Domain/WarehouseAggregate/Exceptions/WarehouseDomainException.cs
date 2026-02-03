@@ -5,7 +5,7 @@ namespace WarehouseService.Api.Domain.WarehouseAggregate.Exceptions;
 public class WarehouseDomainException : DomainException
 {
     public WarehouseDomainException(string message) 
-        : base(message, "WarehouseError") // کد پایه برای تمام خطاهای انبار
+        : base(message, "Warehouse Domain Exception") // کد پایه برای تمام خطاهای انبار
     {
     }
 

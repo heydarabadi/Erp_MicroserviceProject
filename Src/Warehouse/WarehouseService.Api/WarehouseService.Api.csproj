@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\" />
+      <Folder Include="Application\Services\" />
       <Folder Include="Ui\WarehouseAggregate\" />
     </ItemGroup>
 

@@ -43,7 +43,7 @@ public static class DependencyInjection
         return services;
     }
     
-    public static WebApplication UseUiSharedBuildServices(this WebApplication app,string projectName)
+    public static WebApplication UseUiSharedBuildServices(this WebApplication app,string projectName, bool enableHttpRedirection=false)
     {
         app.MapOpenApi();
         
@@ -67,6 +67,9 @@ public static class DependencyInjection
                 .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
         });
         
+        if(enableHttpRedirection)
+            app.UseHttpsRedirection();
+
         return app;
     }
 }

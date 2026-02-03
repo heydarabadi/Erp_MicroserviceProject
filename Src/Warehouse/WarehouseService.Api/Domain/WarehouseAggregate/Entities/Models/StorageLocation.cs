@@ -30,7 +30,7 @@ public class StorageLocation : Entity<Guid>
         // استفاده از Pattern Matching برای چک کردن نال نبودن و خالی نبودن Id
         if (warehouse is not { Id: var warehouseId } || warehouseId == Guid.Empty)
         {
-            throw new StorageLocationInvalidWarehouseException();
+            throw new StorageLocationInvalidWarehouseDomainException();
         }
 
         // ایجاد Value Object (اعتبارسنجی داخلی آدرس)

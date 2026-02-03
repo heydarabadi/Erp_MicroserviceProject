@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class InvalidReservationReleaseException : WarehouseDomainException
+public class InvalidReservationReleaseDomainException : WarehouseDomainException
 {
-    public InvalidReservationReleaseException() 
+    public InvalidReservationReleaseDomainException() 
         : base("مقدار آزادسازی نمی‌تواند بیشتر از مقدار رزرو شده فعلی باشد.", "Inventory.InvalidRelease") { }
 }

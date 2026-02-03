@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class InventoryItemNotFoundException : WarehouseDomainException
+public class InventoryItemNotFoundDomainException : WarehouseDomainException
 {
-    public InventoryItemNotFoundException(string sku) 
+    public InventoryItemNotFoundDomainException(string sku) 
         : base($"کالایی با کد {sku} یافت نشد.", "Inventory.NotFound") { }
 }

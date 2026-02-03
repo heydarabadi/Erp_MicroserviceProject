@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class NegativeTotalStockException : WarehouseDomainException
+public class NegativeTotalStockDomainException : WarehouseDomainException
 {
-    public NegativeTotalStockException() 
+    public NegativeTotalStockDomainException() 
         : base("موجودی کل (OnHand) نمی‌تواند منفی شود.", "Inventory.NegativeTotalStock") { }
 }

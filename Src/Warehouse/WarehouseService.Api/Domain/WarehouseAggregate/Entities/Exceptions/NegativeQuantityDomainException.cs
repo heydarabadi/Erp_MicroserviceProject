@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class NegativeQuantityException : WarehouseDomainException
+public class NegativeQuantityDomainException : WarehouseDomainException
 {
-    public NegativeQuantityException() 
+    public NegativeQuantityDomainException() 
         : base("مقدار عملیات موجودی باید عددی مثبت باشد.", "Inventory.NegativeQuantity") { }
 }

@@ -31,7 +31,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
         ValidateCapacity(capacity);
 
         if (location == null)
-            throw new WarehouseLocationRequiredException();
+            throw new WarehouseLocationRequiredDomainException();
 
         Name = WarehouseName.Create(name);
         Location = location;
@@ -50,7 +50,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
 
         // بررسی تکراری نبودن در لیست فعلی انبار
         if (_storageLocations.Any(x => x.Address == storageLocation.Address))
-            throw new DuplicateStorageLocationException(zone, shelf, bin);
+            throw new DuplicateStorageLocationDomainException(zone, shelf, bin);
 
         _storageLocations.Add(storageLocation);
 
@@ -62,7 +62,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
         ValidateCapacity(newCapacity);
 
         if (newCapacity < Capacity * 0.5)
-            throw new WarehouseCapacityReductionLimitException();
+            throw new WarehouseCapacityReductionLimitDomainException();
 
         Capacity = newCapacity;
         SetModified();
@@ -82,7 +82,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
     public void Deactivate()
     {
         if (!IsActive)
-            throw new WarehouseAlreadyDeactivatedException();
+            throw new WarehouseAlreadyDeactivatedDomainException();
 
         IsActive = false;
         SetModified();
@@ -95,13 +95,13 @@ public class Warehouse : AuditableAggregateRoot<Guid>
     private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new WarehouseNameRequiredException();
+            throw new WarehouseNameRequiredDomainException();
     }
 
     private static void ValidateCapacity(int capacity)
     {
         if (capacity <= 0)
-            throw new InvalidWarehouseCapacityException();
+            throw new InvalidWarehouseCapacityDomainException();
     }
     
     
@@ -109,14 +109,14 @@ public class Warehouse : AuditableAggregateRoot<Guid>
     public void EnsureHasSpace(int requestedQuantity, int currentTotalStock)
     {
         if (currentTotalStock + requestedQuantity > Capacity)
-            throw new WarehouseAtCapacityException();
+            throw new WarehouseAtCapacityDomainException();
     }
 
     // متدی برای ثبت انتساب کالا به انبار (بدون نگه داشتن لیست در حافظه)
     public void RegisterInventoryItem(string sku)
     {
         if (!IsActive)
-            throw new WarehouseAlreadyDeactivatedException();
+            throw new WarehouseAlreadyDeactivatedDomainException();
 
         // در اینجا منطق خاصی اگر برای شروع انتساب نیاز است اضافه می‌شود
         AddDomainEvent(new InventoryAssignedToWarehouseEvent(Id, sku));
@@ -128,10 +128,10 @@ public class Warehouse : AuditableAggregateRoot<Guid>
         ValidateCapacity(newCapacity);
 
         if (newCapacity < currentTotalOccupied)
-            throw new WarehouseCapacityInsufficientForLocationsException(); // اکسپشنی که قبلاً ساختیم
+            throw new WarehouseCapacityInsufficientForLocationsDomainException(); // اکسپشنی که قبلاً ساختیم
 
         if (newCapacity < Capacity * 0.5)
-            throw new WarehouseCapacityReductionLimitException();
+            throw new WarehouseCapacityReductionLimitDomainException();
 
         Capacity = newCapacity;
         SetModified();
@@ -143,17 +143,17 @@ public class Warehouse : AuditableAggregateRoot<Guid>
     public void ValidateInventoryAssignment(int quantity)
     {
         if (!IsActive)
-            throw new WarehouseNotActiveException();
+            throw new WarehouseNotActiveDomainException();
 
         if (CurrentOccupiedCapacity + quantity > Capacity)
-            throw new WarehouseAtCapacityException();
+            throw new WarehouseAtCapacityDomainException();
     }
 
     // متد برای به‌روزرسانی مقدار اشغال شده (توسط Domain Service یا بعد از دریافت ایونت)
     public void UpdateOccupiedCapacity(int totalItemsCount)
     {
         if (totalItemsCount > Capacity)
-            throw new WarehouseAtCapacityException();
+            throw new WarehouseAtCapacityDomainException();
 
         CurrentOccupiedCapacity = totalItemsCount;
         SetModified();

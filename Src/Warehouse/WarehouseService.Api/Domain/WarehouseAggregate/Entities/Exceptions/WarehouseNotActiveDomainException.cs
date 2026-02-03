@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class WarehouseNotActiveException : WarehouseDomainException
+public class WarehouseNotActiveDomainException : WarehouseDomainException
 {
-    public WarehouseNotActiveException() 
+    public WarehouseNotActiveDomainException() 
         : base("انبار غیرفعال است و امکان ثبت موجودی جدید در آن وجود ندارد.", "Warehouse.NotActive") { }
 }

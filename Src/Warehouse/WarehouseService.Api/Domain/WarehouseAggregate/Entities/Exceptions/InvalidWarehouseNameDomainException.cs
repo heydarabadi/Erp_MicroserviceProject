@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class InvalidWarehouseNameException : WarehouseDomainException
+public class InvalidWarehouseNameDomainException : WarehouseDomainException
 {
-    public InvalidWarehouseNameException() 
+    public InvalidWarehouseNameDomainException() 
         : base("نام انبار نامعتبر است یا نمی‌تواند خالی باشد.", "Warehouse.InvalidName") { }
 }

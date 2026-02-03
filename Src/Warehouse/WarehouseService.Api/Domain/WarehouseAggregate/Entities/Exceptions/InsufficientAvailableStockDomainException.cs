@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class InsufficientAvailableStockException : WarehouseDomainException
+public class InsufficientAvailableStockDomainException : WarehouseDomainException
 {
-    public InsufficientAvailableStockException(string sku, int requested, int available) 
+    public InsufficientAvailableStockDomainException(string sku, int requested, int available) 
         : base($"موجودی قابل تخصیص برای کالا '{sku}' کافی نیست. (درخواست: {requested}، موجود: {available})", "Inventory.InsufficientStock") { }
 }

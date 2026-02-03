@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class StorageLocationAddressRequiredException : WarehouseDomainException
+public class StorageLocationAddressRequiredDomainException : WarehouseDomainException
 {
-    public StorageLocationAddressRequiredException() 
+    public StorageLocationAddressRequiredDomainException() 
         : base("آدرس جایگاه (Address) نمی‌تواند خالی باشد.", "Warehouse.AddressRequired") { }
 }

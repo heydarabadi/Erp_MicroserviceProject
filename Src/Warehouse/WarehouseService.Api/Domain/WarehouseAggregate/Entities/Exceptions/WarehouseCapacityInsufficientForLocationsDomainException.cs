@@ -2,9 +2,9 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class WarehouseCapacityInsufficientForLocationsException : WarehouseDomainException
+public class WarehouseCapacityInsufficientForLocationsDomainException : WarehouseDomainException
 {
-    public WarehouseCapacityInsufficientForLocationsException() : base(
+    public WarehouseCapacityInsufficientForLocationsDomainException() : base(
         "ظرفیت جدید نمی‌تواند کمتر از تعداد جایگاه‌های فعلی باشد.", "Warehouse.CapacityInsufficient")
     {
     }

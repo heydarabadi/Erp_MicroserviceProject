@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class StorageLocationInvalidException : WarehouseDomainException
+public class StorageLocationInvalidDomainException : WarehouseDomainException
 {
-    public StorageLocationInvalidException(string message) 
+    public StorageLocationInvalidDomainException(string message) 
         : base(message, "Warehouse.InvalidStorageLocation") { }
 }

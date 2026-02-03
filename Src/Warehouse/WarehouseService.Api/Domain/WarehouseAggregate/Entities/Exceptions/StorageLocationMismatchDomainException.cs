@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class StorageLocationMismatchException : WarehouseDomainException
+public class StorageLocationMismatchDomainException : WarehouseDomainException
 {
-    public StorageLocationMismatchException() 
+    public StorageLocationMismatchDomainException() 
         : base("جایگاه فیزیکی انتخاب شده متعلق به این انبار نیست.", "Inventory.LocationMismatch") { }
 }

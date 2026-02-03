@@ -3,8 +3,8 @@
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
 // اکسپشن برای شناسه‌های خالی یا نامعتبر
-public class InvalidWarehouseIdException : WarehouseDomainException
+public class InvalidWarehouseIdDomainException : WarehouseDomainException
 {
-    public InvalidWarehouseIdException() 
+    public InvalidWarehouseIdDomainException() 
         : base("شناسه انبار نامعتبر است.", "Inventory.InvalidWarehouse") { }
 }

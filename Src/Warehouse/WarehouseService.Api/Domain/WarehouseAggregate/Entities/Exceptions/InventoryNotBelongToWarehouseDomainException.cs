@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class InventoryNotBelongToWarehouseException : WarehouseDomainException
+public class InventoryNotBelongToWarehouseDomainException : WarehouseDomainException
 {
-    public InventoryNotBelongToWarehouseException() 
+    public InventoryNotBelongToWarehouseDomainException() 
         : base("این کالا متعلق به این انبار نیست.", "Warehouse.InventoryMismatch") { }
 }

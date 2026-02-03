@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class WarehouseAtCapacityException : WarehouseDomainException
+public class WarehouseAtCapacityDomainException : WarehouseDomainException
 {
-    public WarehouseAtCapacityException() 
+    public WarehouseAtCapacityDomainException() 
         : base("ظرفیت کل انبار تکمیل شده است و امکان پذیرش کالای جدید نیست.", "Warehouse.AtCapacity") { }
 }

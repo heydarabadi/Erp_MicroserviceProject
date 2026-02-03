@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class InvalidStorageLocationIdException : WarehouseDomainException
+public class InvalidStorageLocationIdDomainException : WarehouseDomainException
 {
-    public InvalidStorageLocationIdException() 
+    public InvalidStorageLocationIdDomainException() 
         : base("شناسه جایگاه فیزیکی (Storage Location) نامعتبر است.", "Inventory.InvalidLocation") { }
 }

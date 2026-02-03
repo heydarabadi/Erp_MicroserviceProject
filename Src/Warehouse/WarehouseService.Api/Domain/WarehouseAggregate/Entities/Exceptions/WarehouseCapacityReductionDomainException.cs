@@ -2,8 +2,8 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.Entities.Exceptions;
 
-public class WarehouseCapacityReductionException : WarehouseDomainException
+public class WarehouseCapacityReductionDomainException : WarehouseDomainException
 {
-    public WarehouseCapacityReductionException() 
+    public WarehouseCapacityReductionDomainException() 
         : base("کاهش ناگهانی ظرفیت به بیش از ۵۰ درصد مجاز نیست.", "Warehouse.CapacityReductionLimit") { }
 }

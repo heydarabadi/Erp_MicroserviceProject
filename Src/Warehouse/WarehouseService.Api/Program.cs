@@ -28,7 +28,6 @@ var app = builder.Build();
 
 string projectName = "WarehouseService.Api";
 
-app.UseHttpsRedirection();
 
 app.UseUiSharedBuildServices(projectName);
 

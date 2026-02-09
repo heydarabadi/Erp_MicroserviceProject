@@ -28,15 +28,15 @@ public class InventoryItem : AuditableAggregateRoot<Guid>
 
     public static InventoryItem Create(string sku, Guid warehouseId, Guid? storageLocationId = null)
     {
-        if (string.IsNullOrWhiteSpace(sku)) throw new SkuRequiredException();
-        if (warehouseId == Guid.Empty) throw new InvalidWarehouseIdException();
+        if (string.IsNullOrWhiteSpace(sku)) throw new SkuRequiredDomainException();
+        if (warehouseId == Guid.Empty) throw new InvalidWarehouseIdDomainException();
 
         return new InventoryItem(Guid.NewGuid(), sku, warehouseId, storageLocationId);
     }
 
     public void Receive(int quantity)
     {
-        if (quantity <= 0) throw new NegativeQuantityException();
+        if (quantity <= 0) throw new NegativeQuantityDomainException();
 
         OnHandQuantity += quantity;
         UpdateMovement();
@@ -46,8 +46,8 @@ public class InventoryItem : AuditableAggregateRoot<Guid>
 
     public void Reserve(int quantity)
     {
-        if (quantity <= 0) throw new NegativeQuantityException();
-        if (quantity > AvailableQuantity) throw new InsufficientAvailableStockException(SKU, quantity, AvailableQuantity);
+        if (quantity <= 0) throw new NegativeQuantityDomainException();
+        if (quantity > AvailableQuantity) throw new InsufficientAvailableStockDomainException(SKU, quantity, AvailableQuantity);
 
         ReservedQuantity += quantity;
         UpdateMovement();
@@ -57,8 +57,8 @@ public class InventoryItem : AuditableAggregateRoot<Guid>
 
     public void Ship(int quantity, string orderId)
     {
-        if (quantity <= 0) throw new NegativeQuantityException();
-        if (quantity > ReservedQuantity) throw new ShippingExceedsReservedQuantityException(quantity, ReservedQuantity);
+        if (quantity <= 0) throw new NegativeQuantityDomainException();
+        if (quantity > ReservedQuantity) throw new ShippingExceedsReservedQuantityDomainException(quantity, ReservedQuantity);
 
         ReservedQuantity -= quantity;
         OnHandQuantity -= quantity;
@@ -69,7 +69,7 @@ public class InventoryItem : AuditableAggregateRoot<Guid>
 
     public void Relocate(Guid newStorageLocationId)
     {
-        if (newStorageLocationId == Guid.Empty) throw new InvalidStorageLocationIdException();
+        if (newStorageLocationId == Guid.Empty) throw new InvalidStorageLocationIdDomainException();
         
         var oldLocation = StorageLocationId;
         StorageLocationId = newStorageLocationId;
@@ -80,7 +80,7 @@ public class InventoryItem : AuditableAggregateRoot<Guid>
 
     public void AdjustStock(int newQuantity, string reason)
     {
-        if (newQuantity < 0) throw new NegativeTotalStockException();
+        if (newQuantity < 0) throw new NegativeTotalStockDomainException();
         
         OnHandQuantity = newQuantity;
         UpdateMovement();
@@ -90,8 +90,8 @@ public class InventoryItem : AuditableAggregateRoot<Guid>
 
     public void ReleaseReservation(int quantity)
     {
-        if (quantity <= 0) throw new NegativeQuantityException();
-        if (quantity > ReservedQuantity) throw new InvalidReservationReleaseException();
+        if (quantity <= 0) throw new NegativeQuantityDomainException();
+        if (quantity > ReservedQuantity) throw new InvalidReservationReleaseDomainException();
 
         ReservedQuantity -= quantity;
         UpdateMovement();

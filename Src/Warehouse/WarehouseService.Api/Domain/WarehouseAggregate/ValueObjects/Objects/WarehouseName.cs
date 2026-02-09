@@ -19,7 +19,7 @@ public class WarehouseName : ValueObject
     {
         // تمام قوانین اعتبارسنجی نام اینجا متمرکز می‌شود
         if (string.IsNullOrWhiteSpace(value))
-            throw new WarehouseNameRequiredException();
+            throw new WarehouseNameRequiredDomainException();
 
         if (value.Length is < 3 or > 100)
             throw new InvalidWarehouseNameLengthException(value.Length);

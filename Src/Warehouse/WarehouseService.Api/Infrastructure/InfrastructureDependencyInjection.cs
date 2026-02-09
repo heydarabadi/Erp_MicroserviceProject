@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shared.Application.Repositories;
+using WarehouseService.Api.Application.Repositories.Warehouses;
 using WarehouseService.Api.Infrastructure.ApplicationOptions;
 using WarehouseService.Api.Infrastructure.Db.PostgresSql.DatabaseContexts;
+using WarehouseService.Api.Infrastructure.Persistance.UnitOfWorkConfiguration;
+using WarehouseService.Api.Infrastructure.Persistance.Warehouses;
 
 namespace WarehouseService.Api.Infrastructure;
 
@@ -32,6 +36,11 @@ public static class InfrastructureDependencyInjection
                 options.EnableDetailedErrors();
             }
         });
+        
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        
+        builder.Services.AddScoped(typeof(IWarehouseRepository),
+            typeof(WarehouseRepository));
 
         return service;
     }

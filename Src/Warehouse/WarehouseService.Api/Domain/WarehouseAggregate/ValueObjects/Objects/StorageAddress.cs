@@ -14,9 +14,9 @@ public class StorageAddress : ValueObject
     
     public StorageAddress(string zone, string shelf, string bin)
     {
-        if (string.IsNullOrWhiteSpace(zone)) throw new StorageLocationInvalidException("Zone cannot be empty.");
-        if (string.IsNullOrWhiteSpace(shelf)) throw new StorageLocationInvalidException("Shelf cannot be empty.");
-        if (string.IsNullOrWhiteSpace(bin)) throw new StorageLocationInvalidException("Bin cannot be empty.");
+        if (string.IsNullOrWhiteSpace(zone)) throw new StorageLocationInvalidDomainException("Zone cannot be empty.");
+        if (string.IsNullOrWhiteSpace(shelf)) throw new StorageLocationInvalidDomainException("Shelf cannot be empty.");
+        if (string.IsNullOrWhiteSpace(bin)) throw new StorageLocationInvalidDomainException("Bin cannot be empty.");
 
         Zone = zone;
         Shelf = shelf;

@@ -3,10 +3,10 @@
 public abstract class DomainException : Exception
 {
     // کد یکتای خطا برای فرانت‌اند یا لاگ‌ها (مثلاً: "Order.InsufficientStock")
-    public string Code { get; }
+    public string Code { get; init; }
     
     // جزئیات اضافی برای عیب‌یابی
-    public string? Details { get; }
+    public string? Details { get; init; }
 
     protected DomainException(string message, string code, string? details = null) 
         : base(message)
@@ -18,6 +18,6 @@ public abstract class DomainException : Exception
     protected DomainException(string message) 
         : base(message)
     {
-        Code = "DomainError"; // کد پیش‌فرض
+        Code = "Error";
     }
 }

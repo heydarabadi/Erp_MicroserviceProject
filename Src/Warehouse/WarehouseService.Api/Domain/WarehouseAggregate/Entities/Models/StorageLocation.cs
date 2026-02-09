@@ -12,7 +12,7 @@ public class StorageLocation : Entity<Guid>
     
     public StorageAddress Address { get; private set; }
 
-    // ۱. Private Constructor: برای جلوگیری از نمونه‌سازی مستقیم
+
     private StorageLocation() { }
 
     private StorageLocation(Guid id, Warehouse warehouse, StorageAddress address) : base(id)
@@ -22,15 +22,13 @@ public class StorageLocation : Entity<Guid>
         
         Address = address;
     }
-
-    // ۲. Factory Method: تنها راه قانونی برای ایجاد جایگاه
-    // این متد internal است چون فقط Aggregate Root (Warehouse) اجازه ساخت آن را دارد
+    
     internal static StorageLocation Create(Warehouse warehouse, string zone, string shelf, string bin)
     {
         // استفاده از Pattern Matching برای چک کردن نال نبودن و خالی نبودن Id
         if (warehouse is not { Id: var warehouseId } || warehouseId == Guid.Empty)
         {
-            throw new StorageLocationInvalidWarehouseDomainException();
+            throw new StorageLocationInvalidWarehouseBaseDomainException();
         }
 
         // ایجاد Value Object (اعتبارسنجی داخلی آدرس)

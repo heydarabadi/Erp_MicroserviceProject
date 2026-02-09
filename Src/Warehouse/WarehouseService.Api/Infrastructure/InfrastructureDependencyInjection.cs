@@ -3,8 +3,8 @@ using Shared.Application.Repositories;
 using WarehouseService.Api.Application.Repositories.Warehouses;
 using WarehouseService.Api.Infrastructure.ApplicationOptions;
 using WarehouseService.Api.Infrastructure.Db.PostgresSql.DatabaseContexts;
+using WarehouseService.Api.Infrastructure.Persistance.Repositories.Warehouses;
 using WarehouseService.Api.Infrastructure.Persistance.UnitOfWorkConfiguration;
-using WarehouseService.Api.Infrastructure.Persistance.Warehouses;
 
 namespace WarehouseService.Api.Infrastructure;
 
@@ -12,16 +12,20 @@ namespace WarehouseService.Api.Infrastructure;
 
 public static class InfrastructureDependencyInjection
 {
-    public static IServiceCollection AddDatabase(this IServiceCollection service, WebApplicationBuilder builder,
+    public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection service, WebApplicationBuilder builder,
         WarehouseOption warehouseOption)
     {
         var databaseConfiguration = warehouseOption.Database;
         
-        service.AddDbContextPool<WarehouseDbContext>(options =>
+        service
+            .AddDbContextPool<WarehouseDbContext>(options =>
         {
-            options.UseNpgsql(databaseConfiguration.ConnectionStrings, npgsql =>
+            options
+                .UseNpgsql(databaseConfiguration.ConnectionStrings, 
+                    npgsql =>
             {
-                npgsql.CommandTimeout(databaseConfiguration.TimeOut);
+                npgsql
+                    .CommandTimeout(databaseConfiguration.TimeOut);
 
                 npgsql.
                     EnableRetryOnFailure(maxRetryCount: databaseConfiguration.MaxRetryCount,
@@ -32,14 +36,20 @@ public static class InfrastructureDependencyInjection
 
             if (builder.Environment.IsDevelopment())
             {
-                options.EnableSensitiveDataLogging();
-                options.EnableDetailedErrors();
+                options
+                    .EnableSensitiveDataLogging();
+                
+                options
+                    .EnableDetailedErrors();
             }
         });
         
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services
+            .AddScoped<IUnitOfWork, UnitOfWork>();
         
-        builder.Services.AddScoped(typeof(IWarehouseRepository),
+        
+        builder.Services
+            .AddScoped(typeof(IWarehouseRepository),
             typeof(WarehouseRepository));
 
         return service;

@@ -17,7 +17,7 @@ var warehouseOption = serviceProvider.GetRequiredService<IOptions<WarehouseOptio
 #endregion
 
 #region DatabaseConfig
-builder.Services.AddDatabase(builder, warehouseOption);
+builder.Services.AddInfrastructureDependencies(builder, warehouseOption);
 #endregion
 
 #region CQRS

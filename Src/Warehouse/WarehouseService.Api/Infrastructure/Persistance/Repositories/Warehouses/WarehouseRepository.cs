@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Application.Repositories;
-using Shared.Domain;
 using WarehouseService.Api.Application.Repositories.Warehouses;
 using WarehouseService.Api.Domain.WarehouseAggregate.Entities.Models;
 using WarehouseService.Api.Infrastructure.Db.PostgresSql.DatabaseContexts;
 using WarehouseService.Api.Infrastructure.Exceptions.Warehouses;
 
-namespace WarehouseService.Api.Infrastructure.Persistance.Warehouses;
+namespace WarehouseService.Api.Infrastructure.Persistance.Repositories.Warehouses;
 
 public class WarehouseRepository(WarehouseDbContext _warehouseDbContext)
     :IWarehouseRepository
@@ -31,7 +29,7 @@ public class WarehouseRepository(WarehouseDbContext _warehouseDbContext)
             .AnyAsync(x=>x.Id == entity.Id, cancellationToken);
 
         if (exist)
-            throw new WarehouseAlreadyExistInfrastructureException();
+            throw new WarehouseBaseAlreadyExistInfrastructureException();
         
         await _warehouseDbContext.AddAsync(entity, cancellationToken);
     }
@@ -43,7 +41,7 @@ public class WarehouseRepository(WarehouseDbContext _warehouseDbContext)
             .Any(x=>x.Id == entity.Id);
 
         if (exist)
-            throw new WarehouseAlreadyExistInfrastructureException();
+            throw new WarehouseBaseAlreadyExistInfrastructureException();
         
         _warehouseDbContext.Warehouses.Add(entity);    
     }
@@ -67,7 +65,7 @@ public class WarehouseRepository(WarehouseDbContext _warehouseDbContext)
             .Find(entity.Id);
 
         if (warehouse is null)
-            throw new WarehouseAlreadyExistInfrastructureException();
+            throw new WarehouseBaseAlreadyExistInfrastructureException();
         
         _warehouseDbContext.Warehouses.Remove(entity);
         
@@ -81,5 +79,14 @@ public class WarehouseRepository(WarehouseDbContext _warehouseDbContext)
             .ToListAsync(cancellationToken);
 
         return warehouses;
+    }
+
+    public async Task<Warehouse> GetAsync(string name, CancellationToken cancellationToken)
+    {
+        Warehouse? warehouse = await _warehouseDbContext.Warehouses
+            .FirstOrDefaultAsync(x => x.Name == name, 
+                cancellationToken);
+
+        return warehouse;
     }
 }

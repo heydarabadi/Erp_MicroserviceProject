@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Application\Services\Warehouses\Commands\AddStorageLocationToWarehouse\Queries\" />
       <Folder Include="Infrastructure\Persistance\Repositories\" />
       <Folder Include="Ui\WarehouseAggregate\" />
     </ItemGroup>

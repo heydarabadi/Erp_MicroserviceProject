@@ -9,6 +9,7 @@ public class Product:AuditableAggregateRoot<ObjectId>
 {
     public Guid DomainId { get; private set; }
     public ProductName Name { get; private set; }
+    
     [JsonIgnore]
     public List<ObjectId> CategoriesIds { get; set; } = new List<ObjectId>();
     [JsonIgnore]

@@ -12,7 +12,7 @@ public class PropertyName : ValueObject
     }
     private PropertyName(string value)
     {
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrWhiteSpace(value))
         {
             throw new PropertyNameRequiredException();
         }

@@ -1,61 +1,126 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Shared.Ui;
+
 public class ResponseWrapperMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public ResponseWrapperMiddleware(RequestDelegate next) => _next = next;
+    public ResponseWrapperMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var originalBodyStream = context.Response.Body;
-        using var responseBody = new MemoryStream();
+        
+        if (context.Request.Path.StartsWithSegments("/scalar") ||
+            context.Request.Path == "/" ||
+            context.Request.Path.StartsWithSegments("/openapi") ||
+            !string.IsNullOrEmpty(context.Response.ContentType) &&
+            !context.Response.ContentType.Contains("application/json", StringComparison.OrdinalIgnoreCase))
+        {
+            await _next(context);
+            return;
+        }
+        
+        var originalBody = context.Response.Body;
+        
+        bool shouldWrap =
+            context.Request.Method != HttpMethods.Options &&
+            context.Request.Method != HttpMethods.Head &&
+            context.Response.ContentType?.Contains("application/json", StringComparison.OrdinalIgnoreCase) == true ||
+            context.Response.ContentType is null;  
+
+        if (!shouldWrap)
+        {
+            await _next(context);
+            return;
+        }
+
+        await using var responseBody = new MemoryStream(8192); 
         context.Response.Body = responseBody;
 
-        await _next(context);
-
-        context.Response.Body = originalBodyStream;
-
-        // فقط اگر پاسخ موفق بود و هنوز Wrap نشده بود
-        if (context.Response.StatusCode >= 200 && context.Response.StatusCode < 300)
+        try
         {
-            responseBody.Seek(0, SeekOrigin.Begin);
-            var content = await new StreamReader(responseBody).ReadToEndAsync();
+            await _next(context);
 
-            // ساخت شیء پاسخ موفق
-            // محتوا را مستقیم به عنوان یک "رشته" یا "شیء خام" می‌فرستیم تا نیازی به Deserialize نباشد
-            var wrappedResponse = new 
+            context.Response.Body = originalBody;
+            
+            if (responseBody.Length == 0)
             {
-                IsSuccess = true,
-                Data = TryDeserialize(content), // سعی می‌کند اگر JSON است آن را بشکند، وگرنه خود متن را برمی‌گرداند
-                Message = "عملیات با موفقیت انجام شد.",
-                Code = (string?)null
-            };
+                if (context.Response.StatusCode == StatusCodes.Status204NoContent)
+                {
 
-            await context.Response.WriteAsJsonAsync(wrappedResponse);
-        }
-        else
-        {
-            // اگر خطا بود (توسط ExceptionHandler مدیریت شده)، همان را کپی کن
+                    return;
+                }
+
+
+            }
+
             responseBody.Seek(0, SeekOrigin.Begin);
-            await responseBody.CopyToAsync(originalBodyStream);
+
+            if (context.Response.StatusCode >= 200 && context.Response.StatusCode < 300)
+            {
+                string content = await new StreamReader(responseBody).ReadToEndAsync();
+
+                object? data = TryParseContent(content);
+
+                var wrapped = new
+                {
+                    IsSuccess = true,
+                    Data = data,
+                    Message = "Success",
+                    Code = (string?)null
+                };
+
+                
+                context.Response.Headers.Remove("Content-Length");
+
+                context.Response.ContentType = "application/json; charset=utf-8";
+
+                await context.Response.WriteAsJsonAsync(wrapped, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = false,
+                });
+            }
+            else
+            {
+                responseBody.Seek(0, SeekOrigin.Begin);
+                await responseBody.CopyToAsync(originalBody);
+            }
+        }
+        catch (Exception ex)
+        {
+            context.Response.Body = originalBody;
+            throw;
         }
     }
 
-    private object? TryDeserialize(string content)
+    private static object? TryParseContent(string content)
     {
-        if (string.IsNullOrWhiteSpace(content)) return null;
-        
+        if (string.IsNullOrWhiteSpace(content))
+            return null;
+
         try
         {
-            // تلاش برای تشخیص اینکه آیا محتوا خودش یک JSON است یا فقط یک متن ساده
-            using var jsonDoc = System.Text.Json.JsonDocument.Parse(content);
-            return jsonDoc.RootElement.Clone(); // اگر JSON معتبر بود
+            using var doc = JsonDocument.Parse(content);
+            return doc.RootElement.Clone(); 
         }
-        catch
+        catch (JsonException)
         {
-            return content; // اگر متن ساده یا HTML بود، همان را برگردان
+
+            try
+            {
+                return JsonNode.Parse(content)?.DeepClone();
+            }
+            catch
+            {
+                return content;
+            }
         }
     }
 }

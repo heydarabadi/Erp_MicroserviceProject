@@ -2,7 +2,7 @@
 
 namespace WarehouseService.Api.Domain.WarehouseAggregate.ValueObjects.Exceptions;
 
-public class InvalidCoordinatesException : WarehouseBaseDomainException
+public class InvalidCoordinatesException : WarehouseBaseBaseException
 {
     public InvalidCoordinatesException(double lat, double lon) 
         : base($"مختصات جغرافیایی نامعتبر است. (Lat: {lat}, Lon: {lon})", "Warehouse.InvalidCoordinates") { }

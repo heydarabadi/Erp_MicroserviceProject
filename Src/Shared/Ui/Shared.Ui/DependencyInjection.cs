@@ -49,7 +49,6 @@ public static class DependencyInjection
         
         app.UseMiddleware<ResponseWrapperMiddleware>();
         
-        // فعال‌سازی سیستم مدیریت خطای سراسری
         app.UseExceptionHandler();
 
         var definitions = app.Services.GetServices<IEndpointDefinition>();

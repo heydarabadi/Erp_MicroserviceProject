@@ -5,6 +5,7 @@ using Shared.Infrastructure.OptionPatternConfiguration;
 using Shared.Ui;
 using WarehouseService.Api.Infrastructure;
 using WarehouseService.Api.Infrastructure.ApplicationOptions;
+using WarehouseService.Api.Ui.Warehouses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +27,16 @@ builder.Services.AddCqrs(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
+
 string projectName = "WarehouseService.Api";
 
 
 app.UseUiSharedBuildServices(projectName);
+
+
+#region Register Endpoints
+app.MapWarehosueEndpoints();
+#endregion
+
 
 await app.RunAsync();

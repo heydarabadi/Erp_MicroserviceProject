@@ -3,7 +3,7 @@
 namespace WarehouseService.Api.Domain.WarehouseAggregate.ValueObjects.Exceptions;
 
 // خطای خالی بودن آدرس
-public class AddressRequiredException : WarehouseBaseDomainException
+public class AddressRequiredException : WarehouseBaseBaseException
 {
     public AddressRequiredException() 
         : base("آدرس پستی انبار نمی‌تواند خالی باشد.", "Warehouse.AddressRequired") { }

@@ -84,7 +84,8 @@ public class WarehouseRepository(WarehouseDbContext _warehouseDbContext)
     public async Task<Warehouse> GetAsync(string name, CancellationToken cancellationToken)
     {
         Warehouse? warehouse = await _warehouseDbContext.Warehouses
-            .FirstOrDefaultAsync(x => x.Name == name, 
+            .Include(x=>x.StorageLocations)
+            .FirstOrDefaultAsync(x => x.Name.Value == name, 
                 cancellationToken);
 
         return warehouse;

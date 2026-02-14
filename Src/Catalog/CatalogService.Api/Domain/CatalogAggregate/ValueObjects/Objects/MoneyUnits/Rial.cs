@@ -5,6 +5,8 @@ namespace CatalogService.Api.Domain.CatalogAggregate.ValueObjects.Objects.MoneyU
 public class Rial:NumericValueObject<Rial>
 {
     public decimal Value { get; init; }
+    public static Rial FromString(string value) => new Rial(decimal.Parse(value));
+    public static Rial FromDecimal(decimal value) => new Rial(value);
     private Rial() { }
 
     private Rial(decimal value)

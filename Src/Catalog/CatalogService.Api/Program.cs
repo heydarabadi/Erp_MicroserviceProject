@@ -8,8 +8,6 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-
-string projectName = "CatalogService.Api";
-app.UseUiSharedBuildServices(projectName);
+app.UseUiSharedBuildServices(builder.Configuration);
 
 app.Run();

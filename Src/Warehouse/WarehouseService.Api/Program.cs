@@ -21,17 +21,9 @@ var warehouseOption = serviceProvider.GetRequiredService<IOptions<WarehouseOptio
 builder.Services.AddInfrastructureDependencies(builder, warehouseOption);
 #endregion
 
-#region CQRS
-builder.Services.AddCqrs(Assembly.GetExecutingAssembly());
-#endregion
-
 var app = builder.Build();
 
-
-string projectName = "WarehouseService.Api";
-
-
-app.UseUiSharedBuildServices(projectName);
+app.UseUiSharedBuildServices(builder.Configuration);
 
 
 #region Register Endpoints

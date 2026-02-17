@@ -1,5 +1,6 @@
 ﻿using Consul;
 using Microsoft.Extensions.Configuration;
+using Share.Common;
 
 namespace Share.Communication.ServiceCoordination.ServiceDiscovery.Concretes;
 
@@ -14,10 +15,11 @@ public class ConsulServiceDiscovery:IServiceDiscovery
         _consulClient = new ConsulClient(x =>
             x.Address = new Uri(consulHostName));
     }
-    public async Task<Uri> GetServiceUrl(string serviceName)
+    public async Task<Uri> GetServiceUrl(ServiceNamesEnum serviceName)
     {
+        string serviceNameString = nameof(serviceName);
         var services = await _consulClient.Agent.Services();
-        var catalogServices = services.Response.Values.FirstOrDefault(x => x.ID == serviceName);
+        var catalogServices = services.Response.Values.FirstOrDefault(x => x.ID == serviceNameString);
         
         ArgumentNullException.ThrowIfNull(catalogServices);
         

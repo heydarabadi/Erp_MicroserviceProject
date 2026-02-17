@@ -32,15 +32,6 @@ public class Price :NumericValueObject<Price>
     {
         return new Price(Value - other.Value); 
     }
-
-    protected override Price MultiplyCore(Price other)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override Price DivideCore(Price other)
-    {
-        throw new NotImplementedException();
-    }
+    
     public static implicit operator decimal(Price price) => price.Value.Value;
 }

@@ -5,10 +5,27 @@ public abstract class NumericValueObject<TSelf>
     where TSelf : NumericValueObject<TSelf>
 {
     protected abstract IEnumerable<object?> GetEqualityComponents();
-    protected abstract TSelf AddCore(TSelf other);
-    protected abstract TSelf SubtractCore(TSelf other);
-    protected abstract TSelf MultiplyCore(TSelf other);
-    protected abstract TSelf DivideCore(TSelf other);
+
+    protected virtual TSelf AddCore(TSelf other)
+    {
+        throw new NotSupportedException(
+            $"{GetType().Name} does not support addition.");   
+    }
+    protected virtual TSelf SubtractCore(TSelf other)
+    {
+        throw new NotSupportedException(
+            $"{GetType().Name} does not support subtraction.");
+    }
+    protected virtual TSelf MultiplyCore(TSelf other)
+    {
+        throw new NotSupportedException(
+            $"{GetType().Name} does not support multiplication.");
+    }
+    protected virtual TSelf DivideCore(TSelf other)
+    {
+        throw new NotSupportedException(
+            $"{GetType().Name} does not support division.");
+    }
     
     public static TSelf operator + (
         NumericValueObject<TSelf> left,

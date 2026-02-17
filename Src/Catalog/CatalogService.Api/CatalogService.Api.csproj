@@ -29,7 +29,6 @@
     <ItemGroup>
       <Folder Include="Domain\CatalogAggregate\Entities\Exceptions\" />
       <Folder Include="Domain\CatalogAggregate\Events\" />
-      <Folder Include="Domain\CatalogAggregate\ValueObjects\Objects\TaxAndTools\" />
     </ItemGroup>
 
 </Project>

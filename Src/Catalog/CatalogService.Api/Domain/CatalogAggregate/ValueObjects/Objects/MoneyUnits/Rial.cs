@@ -31,15 +31,6 @@ public class Rial:NumericValueObject<Rial>
     {
         return new Rial(Value - other.Value);
     }
-
-    protected override Rial MultiplyCore(Rial other)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override Rial DivideCore(Rial other)
-    {
-        throw new NotImplementedException();
-    }
+    
     public static implicit operator decimal(Rial rial) => rial.Value;
 }

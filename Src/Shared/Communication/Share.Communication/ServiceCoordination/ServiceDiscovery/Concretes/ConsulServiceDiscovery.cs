@@ -1,6 +1,7 @@
 ﻿using Consul;
 using Microsoft.Extensions.Configuration;
 using Share.Common;
+using Share.Communication.ServiceCoordination.ServiceDiscovery.Contracts;
 
 namespace Share.Communication.ServiceCoordination.ServiceDiscovery.Concretes;
 

@@ -1,6 +1,6 @@
 ﻿using Share.Common;
 
-namespace Share.Communication.ServiceCoordination.ServiceDiscovery;
+namespace Share.Communication.ServiceCoordination.ServiceDiscovery.Contracts;
 
 public interface IServiceDiscovery
 {

@@ -1,15 +1,30 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Options;
+using Share.Communication.GrpcFramework.Framework.Interceptors;
 using Shared.Application.DependencyInjections;
 using Shared.Infrastructure.OptionPatternConfiguration;
 using Shared.Ui;
+using WarehouseService.Api;
 using WarehouseService.Api.Infrastructure;
 using WarehouseService.Api.Infrastructure.ApplicationOptions;
 using WarehouseService.Api.Ui.Warehouses;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddUiSharedBuildServices(Assembly.GetExecutingAssembly());
+builder.Services.AddGrpc(x => x.Interceptors.Add<LoggingInterceptor>());
+
+#region Kestrel
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(5280, o => o.Protocols = HttpProtocols.Http2);
+});
+
+
+#endregion
 
 #region Option Pattern
 builder.Services.AddOptionsFromConfig<WarehouseOption>(builder.Configuration);
@@ -22,6 +37,7 @@ builder.Services.AddInfrastructureDependencies(builder, warehouseOption);
 #endregion
 
 var app = builder.Build();
+app.MapGrpcService<test>();
 
 app.UseUiSharedBuildServices(builder.Configuration);
 

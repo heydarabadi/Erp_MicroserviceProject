@@ -2,7 +2,7 @@
 
 namespace WarehouseService.Api.Infrastructure.Shared.Exceptions;
 
-public class WarehouseInfrastructureException:DomainException
+public class WarehouseInfrastructureException:BaseException
 {
     public WarehouseInfrastructureException(string message, string code, string? details = null)
         : base(message, code, details)

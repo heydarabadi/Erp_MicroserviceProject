@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Configuration;
+using Shared.Application.DependencyInjections;
+using Shared.Ui.Dependencies.Communication.ServiceCooordination;
 
 namespace Shared.Ui;
 
@@ -16,7 +19,7 @@ public static class DependencyInjection
         
         // Exception Middleware Handling
         services.AddExceptionHandler<GlobalExceptionHandler>();
-        services.AddProblemDetails(); // برای سازگاری با استانداردهای مدرن
+        services.AddProblemDetails();
         
         // Fluent Validation
         services.AddFluentValidationAutoValidation();
@@ -37,19 +40,27 @@ public static class DependencyInjection
         
         // Scalar
         services.AddEndpointsApiExplorer();
-        
-        
+
+
+        #region CQRS
+
+        services.AddCqrs(assemblies);
+
+        #endregion
         
         return services;
     }
     
-    public static WebApplication UseUiSharedBuildServices(this WebApplication app,string projectName, bool enableHttpRedirection=false)
+    public static WebApplication UseUiSharedBuildServices(this WebApplication app
+        ,IConfiguration configuration, bool enableHttpRedirection=false)
     {
+        string findServiceName = configuration.GetSection("Consul")
+            .GetSection("ServiceName")?.Value!;
+        
         app.MapOpenApi();
         
         app.UseMiddleware<ResponseWrapperMiddleware>();
         
-        // فعال‌سازی سیستم مدیریت خطای سراسری
         app.UseExceptionHandler();
 
         var definitions = app.Services.GetServices<IEndpointDefinition>();
@@ -62,10 +73,29 @@ public static class DependencyInjection
         app.MapScalarApiReference(options => 
         {   
             options
-                .WithTitle(projectName)
+                .WithTitle(findServiceName)
                 .WithTheme(ScalarTheme.Moon)
                 .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
         });
+
+
+        #region Service Cooordination
+    
+       
+        string findServiceId = configuration.GetSection("Consul")
+            .GetSection("ServiceId")?.Value!;
+
+        string findConsulHostName = configuration.GetSection("Consul")
+            .GetSection("HostName")?.Value!;
+        
+        // Service Coordination
+        // Register
+        app.RegisterConsul((findServiceName,
+            findServiceId,findConsulHostName));
+
+        #endregion
+
+      
         
         if(enableHttpRedirection)
             app.UseHttpsRedirection();

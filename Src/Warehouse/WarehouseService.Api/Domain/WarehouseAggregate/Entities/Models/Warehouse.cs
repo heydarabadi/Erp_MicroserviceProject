@@ -35,7 +35,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
         ValidateCapacity(capacity);
 
         if (location == null)
-            throw new WarehouseBaseLocationRequiredDomainException();
+            throw new WarehouseBaseLocationRequiredBaseException();
 
         var warehouse = new Warehouse
         {
@@ -56,7 +56,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
         ValidateCapacity(capacity);
 
         if (location == null)
-            throw new WarehouseBaseLocationRequiredDomainException();
+            throw new WarehouseBaseLocationRequiredBaseException();
 
         Name = WarehouseName.Create(name);
         Location = location;
@@ -74,7 +74,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
 
         // بررسی تکراری نبودن در لیست فعلی انبار
         if (_storageLocations.Any(x => x.Address == storageLocation.Address))
-            throw new DuplicateStorageLocationBaseDomainException(zone, shelf, bin);
+            throw new DuplicateStorageLocationBaseBaseException(zone, shelf, bin);
 
         _storageLocations.Add(storageLocation);
 
@@ -86,7 +86,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
         ValidateCapacity(newCapacity);
 
         if (newCapacity < Capacity * 0.5)
-            throw new WarehouseBaseCapacityReductionLimitDomainException();
+            throw new WarehouseBaseCapacityReductionLimitBaseException();
 
         Capacity = newCapacity;
         SetModified();
@@ -106,7 +106,7 @@ public class Warehouse : AuditableAggregateRoot<Guid>
     public void Deactivate()
     {
         if (!IsActive)
-            throw new WarehouseBaseAlreadyDeactivatedDomainException();
+            throw new WarehouseBaseAlreadyDeactivatedBaseException();
 
         IsActive = false;
         SetModified();
@@ -118,26 +118,26 @@ public class Warehouse : AuditableAggregateRoot<Guid>
     private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new WarehouseBaseNameRequiredDomainException();
+            throw new WarehouseBaseNameRequiredBaseException();
     }
 
     private static void ValidateCapacity(int capacity)
     {
         if (capacity <= 0)
-            throw new InvalidWarehouseBaseCapacityDomainException();
+            throw new InvalidWarehouseBaseCapacityBaseException();
     }
     
     
     public void EnsureHasSpace(int requestedQuantity, int currentTotalStock)
     {
         if (currentTotalStock + requestedQuantity > Capacity)
-            throw new WarehouseBaseAtCapacityDomainException();
+            throw new WarehouseBaseAtCapacityBaseException();
     }
 
     public void RegisterInventoryItem(string sku)
     {
         if (!IsActive)
-            throw new WarehouseBaseAlreadyDeactivatedDomainException();
+            throw new WarehouseBaseAlreadyDeactivatedBaseException();
 
         // در اینجا منطق خاصی اگر برای شروع انتساب نیاز است اضافه می‌شود
         AddDomainEvent(new InventoryAssignedToWarehouseEvent(Id, sku));
@@ -148,10 +148,10 @@ public class Warehouse : AuditableAggregateRoot<Guid>
         ValidateCapacity(newCapacity);
 
         if (newCapacity < currentTotalOccupied)
-            throw new WarehouseBaseCapacityInsufficientForLocationsDomainException(); // اکسپشنی که قبلاً ساختیم
+            throw new WarehouseBaseCapacityInsufficientForLocationsBaseException(); // اکسپشنی که قبلاً ساختیم
 
         if (newCapacity < Capacity * 0.5)
-            throw new WarehouseBaseCapacityReductionLimitDomainException();
+            throw new WarehouseBaseCapacityReductionLimitBaseException();
 
         Capacity = newCapacity;
         SetModified();
@@ -163,16 +163,16 @@ public class Warehouse : AuditableAggregateRoot<Guid>
     public void ValidateInventoryAssignment(int quantity)
     {
         if (!IsActive)
-            throw new WarehouseBaseNotActiveDomainException();
+            throw new WarehouseBaseNotActiveBaseException();
 
         if (CurrentOccupiedCapacity + quantity > Capacity)
-            throw new WarehouseBaseAtCapacityDomainException();
+            throw new WarehouseBaseAtCapacityBaseException();
     }
 
     public void UpdateOccupiedCapacity(int totalItemsCount)
     {
         if (totalItemsCount > Capacity)
-            throw new WarehouseBaseAtCapacityDomainException();
+            throw new WarehouseBaseAtCapacityBaseException();
 
         CurrentOccupiedCapacity = totalItemsCount;
         SetModified();

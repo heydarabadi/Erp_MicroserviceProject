@@ -2,7 +2,7 @@
 
 namespace WarehouseService.Api.Infrastructure.Exceptions.Warehouses;
 
-public class WarehouseBaseAlreadyExistInfrastructureException:WarehouseBaseDomainException
+public class WarehouseBaseAlreadyExistInfrastructureException:WarehouseBaseBaseException
 {
     private const string message = "Warehouse Already Exist";
     public WarehouseBaseAlreadyExistInfrastructureException() : base(message)

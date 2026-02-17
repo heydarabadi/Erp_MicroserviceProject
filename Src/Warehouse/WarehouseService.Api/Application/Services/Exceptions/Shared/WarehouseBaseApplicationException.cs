@@ -2,7 +2,7 @@
 
 namespace WarehouseService.Api.Application.Services.Exceptions.Shared;
 
-public class WarehouseBaseApplicationException: DomainException
+public class WarehouseBaseApplicationException: BaseException
 {
     public WarehouseBaseApplicationException(string message, string? details = null) : base(message, "Warehouse Application Exception", details)
     {

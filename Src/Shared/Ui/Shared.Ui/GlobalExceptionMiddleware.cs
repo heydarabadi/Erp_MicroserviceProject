@@ -12,7 +12,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
 
         var (statusCode, errorCode) = exception switch
         {
-            DomainException dex => (StatusCodes.Status400BadRequest, dex.Code),
+            BaseException baseException => (StatusCodes.Status400BadRequest, baseException.Code),
             UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized"),
             _ => (StatusCodes.Status500InternalServerError, "InternalServerError")
         };
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
         httpContext.Response.StatusCode = statusCode;
 
         var response = ApiResponse<object>.Failure(
-            statusCode == 500 ? "خطای داخلی سرور" : exception.Message, 
+            statusCode == 500 ? "InternalServerError" : exception.Message, 
             errorCode
         );
 

@@ -14,7 +14,7 @@
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB : RideMarketDb
+      POSTGRES_DB: RideMarketDb
       PGDATA: /data/postgres
     ports:
       - "5432:5432"
@@ -40,13 +40,25 @@
     depends_on:
       - postgres_WarehouseService
 
-
-
-
+  consul:
+    image: hashicorp/consul:latest
+    container_name: consul_service-coordinator
+    restart: always
+    ports:
+      - "8500:8500"       # HTTP API + UI
+      - "8600:8600/tcp"   # DNS
+      - "8600:8600/udp"   # DNS
+    command: ["agent", "-dev", "-client=0.0.0.0", "-bind=0.0.0.0", "-ui"]
+    environment:
+      CONSUL_LOCAL_CONFIG: |
+        {"ui_config": {"enabled": true}}
+    volumes:
+      - consul-data:/consul/data
+      
 volumes:
   postgres-WarehouseService:
   pgadmin-WarehouseService:
-
+  consul-data:
 
 
 networks:

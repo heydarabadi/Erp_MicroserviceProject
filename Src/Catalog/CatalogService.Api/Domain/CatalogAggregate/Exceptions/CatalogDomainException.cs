@@ -2,7 +2,7 @@
 
 namespace CatalogService.Api.Domain.CatalogAggregate.Exceptions;
 
-public class CatalogDomainException : DomainException
+public class CatalogDomainException : BaseException
 {
     public CatalogDomainException(string message, string code, string? details = null) : base(message, code, details)
     {

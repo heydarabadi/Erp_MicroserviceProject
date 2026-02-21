@@ -29,6 +29,7 @@
     <ItemGroup>
       <Folder Include="Domain\CatalogAggregate\Entities\Exceptions\" />
       <Folder Include="Domain\CatalogAggregate\Events\" />
+      <Folder Include="Infrastructure\Db\MongoDb\EntityConfigurations\" />
     </ItemGroup>
 
 </Project>
